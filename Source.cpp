@@ -14,7 +14,13 @@ public:
 	void setData();
 	void writeFile(vector<repair_work> &arr, string path);
 	void readFile(vector<repair_work>& arr, string path);
+	void printData();
+	void searchData(vector<repair_work>& arr, string data, int var);
 	void printField();
+	void findMin(vector<repair_work>& arr, int var);
+	void findMax(vector<repair_work>& arr, int var);
+	void printFieldMM();
+	void sortField(vector<repair_work>& arr, int var);
 private:
 	string name;//наименование объекта
 	string addres;//адрес объекта
@@ -62,23 +68,74 @@ int main()
 			cout << "Данные считаны" << endl;
 			break;
 		case 4:
-			for (auto& el : arr)
+			if (arr.empty())
 			{
-				cout << "Объект"<<count << endl;
-				count++;
+				cout << "В веторе нет элементов" << endl;
 			}
-			cout << "Выберите удаляемый объект" << endl;
-			cin >> var;
-			arr.erase(arr.begin() + var);
-			cout << "Объект удален" << endl;
+			else
+			{
+				for (auto& el : arr)
+				{
+					cout << "Объект"<<count << endl;
+					count++;
+				}
+				cout << "Выберите удаляемый объект" << endl;
+				cin >> var;
+				arr.erase(arr.begin() + var);
+				cout << "Объект удален" << endl;
+			}
 			break;
 		case 5:
+			if (arr.empty())
+			{
+				cout << "В веторе нет элементов" << endl;
+			}
+			else
+			{
+				rw.printField();
+				cout << "Выберите поле для поиска" << endl;
+				cin >> var;
+				cout << "Введите данные для поиска" << endl;
+				cin >> field;
+				rw.searchData(arr, field, var);
+			}
 			break;
 		case 6:
+			if (arr.empty())
+			{
+				cout << "В веторе нет элементов" << endl;
+			}
+			else
+			{
+				cout << "Выберите поле для нахождения минимального значения" << endl;
+				cin >> var;
+				rw.findMin(arr, var);
+			}
 			break;
 		case 7:
+			if (arr.empty())
+			{
+				cout << "В веторе нет элементов" << endl;
+			}
+			else
+			{
+				cout << "Выберите поле для нахождения максимального значения" << endl;
+				cin >> var;
+				rw.findMax(arr, var);
+			}
 			break;
 		case 8:
+			if (arr.empty())
+			{
+				cout << "В веторе нет элементов" << endl;
+			}
+			else
+			{
+				rw.printField();
+				cout << "Выберите нужное поле" << endl;
+				cin >> var;
+				rw.sortField(arr, var);
+			}
 			break;
 		case 9:
 			if (arr.empty())
@@ -89,7 +146,7 @@ int main()
 			{
 				for (auto& el : arr)
 				{
-					el.printField();
+					el.printData();
 				}
 			}
 			break;
@@ -228,7 +285,7 @@ void repair_work::readFile(vector<repair_work>& arr, string path)
 	}
 }
 
-void repair_work::printField()
+void repair_work::printData()
 {
 	cout << "-------------------------" << endl;
 	cout << "Объект класса repair_work" << endl;
@@ -238,4 +295,155 @@ void repair_work::printField()
 	cout << "Дата начала работ : " << date_begin << endl;
 	cout << "Продолжительность работ : " << duration << endl;
 	cout << "Стоимость работ : " << price << endl;
+}
+
+void repair_work::searchData(vector<repair_work>& arr, string data, int var)
+{
+	for (auto& el : arr)
+	{
+		switch (var)
+		{
+		case 1:
+			if (data == el.name)
+			{
+				el.printData();
+			}
+			break;
+		case 2:
+			if (data == el.addres)
+			{
+				el.printData();
+			}
+			break;
+		case 3:
+			if (data == el.name_customer)
+			{
+				el.printData();
+			}
+			break;
+		case 4:
+			if (data == el.date_begin)
+			{
+				el.printData();
+			}
+			break;
+		case 5:
+			if (stoi(data) == el.duration)
+			{
+				el.printData();
+			}
+			break;
+		case 6:
+			if (stoi(data) == el.price)
+			{
+				el.printData();
+			}
+			break;
+		default:
+			cout << "Некоректный ввод" << endl;
+			break;
+		}
+	}
+}
+
+void repair_work::printField()
+{
+	cout << "Доступные поля : " << endl;
+	cout << "1 - Наименование объекта" << endl;
+	cout << "2 - Адрес объекта" << endl;
+	cout << "3 - ФИО заказчика" << endl;
+	cout << "4 - Дата начала работ" << endl;
+	cout << "5 - Продолжительность" << endl;
+	cout << "6 - Стоимость работ" << endl;
+}
+
+void repair_work::findMax(vector<repair_work>& arr, int var)
+{
+	int max = 0;
+	switch (var)
+	{
+	case 1:
+		for (auto& el : arr)
+		{
+			if (el.duration > max)
+			{
+				max = el.duration;
+			}
+		}
+		break;
+	case 2:
+		for (auto& el : arr)
+		{
+			if (el.price > max)
+			{
+				max = el.price;
+			}
+		}
+		break;
+	default:
+		cout << "Некоректный ввод" << endl;
+		break;
+	}
+	cout << "Максимальный элемент = " << max << endl;
+}
+
+void repair_work::findMin(vector<repair_work>& arr, int var)
+{
+	int min = 10000000000;
+	switch (var)
+	{
+	case 1:
+		for (auto& el : arr)
+		{
+			if (el.duration < min)
+			{
+				min = el.duration;
+			}
+		}
+		break;
+	case 2:
+		for (auto& el : arr)
+		{
+			min = el.price;
+		}
+		break;
+	default:
+		cout << "Некоректный ввод" << endl;
+		break;
+	}
+	cout << "Минимальный элемент" << endl;
+}
+
+void repair_work::printFieldMM()
+{
+	cout << "Доступные поля:" << endl;
+	cout << "1 - Продолжительность" << endl;
+	cout << "2 - Стоимость работ" << endl;
+}
+
+void repair_work::sortField(vector<repair_work>& arr, int var)
+{
+	switch (var)
+	{
+	case 1:
+		sort(arr.begin(), arr.end(), [](const repair_work& r1, const repair_work& r2) {return r1.name < r2.name;});
+		break;
+	case 2:
+		sort(arr.begin(), arr.end(), [](const repair_work& r1, const repair_work& r2) {return r1.addres < r2.addres;});
+		break;
+	case 3:
+		sort(arr.begin(), arr.end(), [](const repair_work& r1, const repair_work& r2) {return r1.name_customer < r2.name_customer;});
+		break;
+	case 4:
+		sort(arr.begin(), arr.end(), [](const repair_work& r1, const repair_work& r2) {return r1.date_begin < r2.date_begin;});
+		break;
+	case 5:
+		sort(arr.begin(), arr.end(), [](const repair_work& r1, const repair_work& r2) {return r1.duration < r2.duration;});
+		break;
+	case 6:
+		sort(arr.begin(), arr.end(), [](const repair_work& r1, const repair_work& r2) {return r1.price < r2.price;});
+		break;
+	default:
+		break;
+	}
 }
