@@ -40,9 +40,10 @@ int main()
 	string path = "data.txt";
 	string field;
 	bool exit = false;
+	rw.readFile(arr, path);
+	rw.printInfo();
 	while (!exit)
 	{
-		rw.printInfo();
 		cout << "Выберите режим: " << endl;
 		cin >> var_switch;
 		switch (var_switch)
@@ -53,15 +54,8 @@ int main()
 			cout << "Объект создан" << endl;
 			break;
 		case 2:
-			if (arr.empty())
-			{
-				cout << "В веторе нет элементов" << endl;
-			}
-			else
-			{
-				rw.writeFile(arr, path);
-				cout << "Данные записаны в файл" << endl;
-			}
+			rw.writeFile(arr, path);
+			cout << "Данные записаны в файл" << endl;
 			break;
 		case 3:
 			rw.readFile(arr, path);
@@ -108,6 +102,7 @@ int main()
 			else
 			{
 				cout << "Выберите поле для нахождения минимального значения" << endl;
+				rw.printFieldMM();
 				cin >> var;
 				rw.findMin(arr, var);
 			}
@@ -120,6 +115,7 @@ int main()
 			else
 			{
 				cout << "Выберите поле для нахождения максимального значения" << endl;
+				rw.printFieldMM();
 				cin >> var;
 				rw.findMax(arr, var);
 			}
@@ -135,6 +131,7 @@ int main()
 				cout << "Выберите нужное поле" << endl;
 				cin >> var;
 				rw.sortField(arr, var);
+				cout << "Вектор успешно отсортирован" << endl;
 			}
 			break;
 		case 9:
@@ -195,6 +192,7 @@ repair_work::~repair_work()
 
 void repair_work::printInfo()
 {
+	cout << "===================================================" << endl;
 	cout << "Доступные режимы :" << endl;
 	cout << "1 - Ввод данных " << endl;
 	cout << "2 - Сохранение данных в файл" << endl;
@@ -206,6 +204,7 @@ void repair_work::printInfo()
 	cout << "8 - Сортровка по полю" << endl;
 	cout << "9 - Вывод полей объектов" << endl;
 	cout << "10 - Выход из программы" << endl;
+	cout << "===================================================" << endl;
 }
 
 void repair_work::setData()
@@ -220,6 +219,7 @@ void repair_work::setData()
 	cout << "Введите имя заказчика" << endl;
 	cin >> second_name;
 	cout << "Введите отчество заказчика" << endl;
+	cin >> third_name;
 	name_customer = first_name + " " + second_name + " " + third_name;
 	cout << "Введите дату начала работ" << endl;
 	cin >> date_begin;
@@ -239,12 +239,12 @@ void repair_work::writeFile(vector<repair_work>& arr, string path)
 		file << arr.size() << "\n";
 		for (auto& el : arr)
 		{
-			file << name << "\n";
-			file << addres << "\n";
-			file << name_customer << "\n";
-			file << date_begin << "\n";
-			file << duration << "\n";
-			file << price << "\n";
+			file << el.name << "\n";
+			file << el.addres << "\n";
+			file << el.name_customer << "\n";
+			file << el.date_begin << "\n";
+			file << el.duration << "\n";
+			file << el.price << "\n";
 		}
 		file.close();
 	}
@@ -276,6 +276,7 @@ void repair_work::readFile(vector<repair_work>& arr, string path)
 			obj.duration = stoi(field);
 			getline(file, field);
 			obj.price = stoi(field);
+			arr.push_back(obj);
 		}
 		file.close();
 	}
@@ -411,7 +412,7 @@ void repair_work::findMin(vector<repair_work>& arr, int var)
 		cout << "Некоректный ввод" << endl;
 		break;
 	}
-	cout << "Минимальный элемент" << endl;
+	cout << "Минимальный элемент = "<<min << endl;
 }
 
 void repair_work::printFieldMM()
