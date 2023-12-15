@@ -34,9 +34,8 @@ int main()
 	setlocale(LC_ALL, "rus");
 	repair_work rw;
 	vector<repair_work> arr;
-	int var_switch = 0;
-	int count = 0;
-	int var = 0;
+	int var_switch, count, var;
+	count = var_switch = var = 0;
 	string path = "data.txt";
 	string field;
 	bool exit = false;
@@ -68,9 +67,10 @@ int main()
 			}
 			else
 			{
+				count = 0;
 				for (auto& el : arr)
 				{
-					cout << "Объект"<<count << endl;
+					cout << "Объект "<<count << endl;
 					count++;
 				}
 				cout << "Выберите удаляемый объект" << endl;
